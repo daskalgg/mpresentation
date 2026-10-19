@@ -1,0 +1,13 @@
+// Auralization: convolving a dry recording with a room impulse response
+digraph convolution {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.3, ranksep=0.5, dpi=200];
+    node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=14,
+           color="#33415c", fillcolor="#eef2f8", penwidth=1.3];
+    edge  [color="#33415c", arrowsize=0.7, penwidth=1.2];
+
+    dry [label="Anechoic recording\n(no reflections)", fillcolor="#e3f1e6", color="#2b7a3d"];
+    rir [label="Room Impulse Response\n(measured or simulated)", fillcolor="#e3f1e6", color="#2b7a3d"];
+    c   [shape=circle, label="⊛", fontsize=22, width=0.5, fixedsize=true];
+    out [label="Sound as heard\nin that room", fillcolor="#33415c", fontcolor="white"];
+    dry -> c; rir -> c; c -> out;
+}

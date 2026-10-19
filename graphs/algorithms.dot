@@ -1,0 +1,24 @@
+// Taxonomy of sound propagation algorithms (thesis, Section 3)
+digraph algorithms {
+    graph [rankdir=TB, bgcolor="transparent", nodesep=0.35, ranksep=0.6, dpi=200];
+    node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=14,
+           color="#33415c", fillcolor="#eef2f8", penwidth=1.4];
+    edge  [color="#33415c", arrowsize=0.7, penwidth=1.2];
+
+    root [label="Sound propagation\nalgorithms", fillcolor="#33415c", fontcolor="white"];
+
+    wave [label="Wave equation methods\n(accurate, expensive)", fillcolor="#f8e5e5", color="#a33"];
+    geom [label="Geometric methods\n(fast, approximate)", fillcolor="#e3f1e6", color="#2b7a3d"];
+
+    fe   [label="Finite Element\n(FE)", fillcolor="#fbf1f1", color="#a33"];
+    be   [label="Boundary Element\n(BE)", fillcolor="#fbf1f1", color="#a33"];
+    fdtd [label="Finite-Difference\nTime-Domain (FDTD)", fillcolor="#fbf1f1", color="#a33"];
+
+    is   [label="Image-Source", fillcolor="#f1f8f2", color="#2b7a3d"];
+    rt   [label="Ray-Tracing", fillcolor="#2b7a3d", fontcolor="white", color="#2b7a3d", penwidth=2.5];
+    bt   [label="Beam-Tracing", fillcolor="#f1f8f2", color="#2b7a3d"];
+
+    root -> {wave geom};
+    wave -> {fe be fdtd};
+    geom -> {is rt bt};
+}

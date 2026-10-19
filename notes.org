@@ -1,0 +1,57 @@
+#+title: Notes
+* Title & Context
+• Thesis title: “Novel Methodology for Sound Spatialisation and VR Acoustics in the Web”
+• Author, degree, university, supervisor.
+* Motivation
+• Why realistic spatial audio matters (VR/AR, games).
+• Current web limitations (low‑end devices, performance).
+* Problem Statement
+• Real‑time acoustic simulation is computationally heavy.
+• Existing offline tools (Odeon, etc.) are too slow for browsers.
+* Goal
+• Generate Directional Room Impulse Response (DRIR) in real time on the web.
+• Combine DRIR with HRTF → Binaural Real‑time rendering.
+* Overview of Approach
+1️⃣ Mesh → GPU texture
+2️⃣ Stochastic ray‑tracing in WebGL fragment shader
+3️⃣ Accumulate energy → DRIR
+4️⃣ Convolve with anechoic source via Web Audio API
+* Fundamentals of Sound
+• Frequency, speed, amplitude, phase, wavelength.
+• Key propagation phenomena: reflection, refraction, diffraction, absorption (visual diagram).
+* Sound Propagation Algorithms
+• Wave‑Equation Methods (FE, BE, FDTD) – accurate but heavy.
+• Geometric Methods (Image‑Source, Ray‑Tracing, Beam‑Tracing) – efficient on GPU.
+* Why Ray‑Tracing?
+• Stochastic, handles specular + diffuse reflections.
+• Parallelizable → GPU acceleration.
+• Works with finite‑volume receivers.
+* GPU Mesh Encoding
+• Convert vertex data to RGBA texture (XYZ + material).
+• Two full‑screen triangles drive fragment shader.
+(Figure: mesh‑to‑texture pipeline)
+* Fragment Shader Ray‑Tracing
+• Emit random rays per pixel
+• Intersect with texture data (ray‑triangle test).
+• Accumulate energy, apply inverse‑square law & material absorption.
+* DRIR Generation
+Bin energy by arrival time → impulse response.
+• Store as audio buffer for Web Audio API.
+* HRTF Integration
+• Convolve DRIR with HRIR to produce Binaural Room Impulse Response (BRIR).
+• Use Web Audio nodes: ConvolverNode, PannerNode.
+* Ambisonics Encoding
+• Encode DRIR into first‑order Ambisonic channels.
+• Allows flexible rendering on any speaker setup or headphones.
+* Performance Results
+• Benchmarks: CPU vs GPU, low‑end phone tests.
+• Accuracy vs number of rays & reflections (graph).
+* Limitations & Future Work
+• Limited frequency range (high‑freq diffraction).
+• Adaptive ray count, dynamic scene updates.
+• Possible integration with WebXR.
+* Conclusion
+• Real‑time DRIR on the web is feasible with GPU ray‑tracing.
+• Opens doors for immersive audio in VR/AR browsers.
+* Q&A	–
+

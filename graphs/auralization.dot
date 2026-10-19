@@ -1,0 +1,17 @@
+// From impulse responses to what the listener hears
+digraph auralization {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.35, ranksep=0.5, dpi=200];
+    node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=14,
+           color="#33415c", fillcolor="#eef2f8", penwidth=1.3];
+    edge  [color="#33415c", arrowsize=0.7, penwidth=1.2];
+
+    drir [label="DRIR\n(room + direction,\nambisonics)", fillcolor="#e3f1e6", color="#2b7a3d"];
+    hrir [label="HRIR\n(head, ears, torso)", fillcolor="#e3f1e6", color="#2b7a3d"];
+    c1   [shape=circle, label="⊛", fontsize=22, width=0.5, fixedsize=true];
+    brir [label="BRIR\n(2 channels:\nleft / right ear)", fillcolor="#fbeedd", color="#a35a00"];
+    dry  [label="Anechoic sound", fillcolor="#e3f1e6", color="#2b7a3d"];
+    c2   [shape=circle, label="⊛", fontsize=22, width=0.5, fixedsize=true];
+    out  [label="Binaural audio\n(headphones)", fillcolor="#33415c", fontcolor="white"];
+
+    drir -> c1; hrir -> c1; c1 -> brir -> c2; dry -> c2; c2 -> out;
+}

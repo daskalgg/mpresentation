@@ -1,0 +1,136 @@
+.reveal h3 {
+    margin-bottom: 0.6em;
+}
+
+.reveal ul,
+.reveal ol {
+    font-size: 0.8em;
+}
+
+.reveal small.block {
+    display: block;
+    font-size: 0.75em;
+    line-height: 1.4;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.reveal figure {
+    margin: 0;
+}
+
+.reveal figure img {
+    max-width: 100%;
+    margin: 0;
+}
+
+.reveal figcaption {
+    font-size: 0.45em;
+    color: #555;
+}
+
+.reveal .cite {
+    font-size: 0.7em;
+    color: #2b5797;
+    vertical-align: super;
+    margin-left: 0.15em;
+}
+
+.reveal .cols {
+    display: flex;
+    gap: 1.5em;
+    align-items: center;
+}
+
+.reveal .cols > * {
+    flex: 1;
+}
+
+.reveal .eq {
+    font-family: "Times New Roman", serif;
+    font-style: italic;
+    font-size: 0.9em;
+    margin: 0.3em 0;
+}
+
+.reveal table {
+    font-size: 0.6em;
+    margin: 0 auto;
+}
+
+.reveal table td,
+.reveal table th {
+    text-align: center;
+}
+
+.reveal ol.refs {
+    font-size: 0.42em;
+    text-align: left;
+    line-height: 1.35;
+}
+
+.reveal ol.refs li {
+    margin-bottom: 0.3em;
+}
+
+.reveal h4 {
+    font-size: 1.15em;
+    margin-bottom: 0.5em;
+}
+
+.reveal .cols > .wide {
+    flex: 1.8;
+}
+
+.reveal .title-slide h2 {
+    font-size: 1.2em;
+    text-transform: none;
+    line-height: 1.25;
+    margin-bottom: 0.3em;
+}
+
+.reveal .title-slide .logo {
+    height: 90px;
+    margin: 0 auto 0.4em;
+}
+
+.reveal .title-slide p {
+    font-size: 0.65em;
+    margin: 0.2em 0;
+}
+
+.reveal .title-slide .subtitle {
+    color: #555;
+    font-style: italic;
+}
+
+.reveal .title-slide hr {
+    width: 40%;
+    margin: 0.8em auto;
+    border: none;
+    border-top: 2px solid #2b5797;
+}
+
+.reveal .title-slide .author {
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.reveal .title-slide .affiliation {
+    margin-top: 1em;
+    font-size: 0.55em;
+    color: #555;
+}
+
+.reveal .section-slide h2 {
+    font-size: 1.4em;
+    text-transform: none;
+    color: #33415c;
+}
+
+.reveal .section-slide .section-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #2b5797;
+    margin: 0;
+}

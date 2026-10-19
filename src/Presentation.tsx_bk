@@ -1,0 +1,66 @@
+import { Deck, Slide } from '@revealjs/react';
+import RevealNotes from 'reveal.js/plugin/notes';
+// import SpeakerNotes from './SpeakerNotes';
+import type { RevealApi } from 'reveal.js';
+import { useRef } from 'react';
+import "reveal.js/reveal.css";
+import 'reveal.js/theme/white.css';
+
+import Title from './Title';
+import Text from './Text';
+import Block from './Block';
+
+function Presentation() {
+    const deckRef = useRef<RevealApi | null>(null);
+    return (
+        <Deck deckRef={deckRef} plugins={[RevealNotes]}>
+            <Slide>
+                <Title>A NOVEL METHODOLOGY FOR SOUND SPATIALISATION AND VR ACOUSTICS IN THE WEB</Title>
+                <Text>by</Text>
+                <Text>George Daskalakis</Text>
+                <Text>B.Sc., Hellenic Mediterranean University, 2022</Text>
+
+                <Text>Supervisor Athanasios Malamos</Text>
+
+                <Text>DEPARTMENT OF ELECTRICAL AND COMPUTER ENGINEERING</Text>
+                <Text>SCHOOL OF ENGINEERING</Text>
+                <Text>HELLENIC MEDITERRANEAN UNIVERSITY</Text>
+                <br />
+                <Text>2026</Text>
+            </Slide>
+            <Slide>
+                <Title>Contents</Title>
+                <ul>
+                    <li>Test</li>
+                    <li>Test</li>
+                </ul>
+            </Slide>
+            <Slide>
+                <Title>Overview</Title>
+                <Block>
+                    Our goal is to create a novel Web3D implementation that generates
+                    Directional Room Impulse Responses (DRIR) for virtual spaces, simulating
+                    key acoustic properties like reflections and reverberation using ray tracing.
+                </Block>
+                <br />
+                <Block asFrag>
+                    To achive this goal we utilize <b>WebGL</b> for GPU acceleration of the ray tracing algorithm
+                    and <b>Web Audio API</b> for auralization.
+                </Block>
+                <br />
+                <Block asFrag>
+                    These two technologies allow our implementation to be platform independent and be performant enough
+                    for a wide variety of devices
+                </Block>
+            </Slide>
+            <Slide>
+                <Title>Overview</Title>
+            </Slide>
+            <Slide>
+                <Title>Overview</Title>
+            </Slide>
+        </Deck>
+    )
+}
+
+export default Presentation

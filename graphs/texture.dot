@@ -1,0 +1,35 @@
+// How the mesh is packed into a float RGBA texture (one row per triangle)
+digraph texture {
+    graph [rankdir=TB, bgcolor="transparent", nodesep=0.4, ranksep=0.6, dpi=200];
+    node  [fontname="Helvetica", fontsize=13];
+    edge  [color="#33415c", arrowsize=0.7, penwidth=1.2];
+
+    tri [shape=plaintext, label=<
+      <table border="0" cellborder="1" cellspacing="0" cellpadding="6" color="#33415c">
+        <tr>
+          <td bgcolor="#33415c"><font color="white"><b>Triangle i</b></font></td>
+          <td port="v0" bgcolor="#eef2f8">vertex 0</td>
+          <td port="v1" bgcolor="#eef2f8">vertex 1</td>
+          <td port="v2" bgcolor="#eef2f8">vertex 2</td>
+        </tr>
+      </table>>];
+
+    row [shape=plaintext, label=<
+      <table border="0" cellborder="1" cellspacing="0" cellpadding="6" color="#33415c">
+        <tr>
+          <td port="p0" bgcolor="#f8e5e5">P₀</td><td bgcolor="#e3f1e6">N₀</td><td bgcolor="#fbeedd">UV₀</td>
+          <td port="p1" bgcolor="#f8e5e5">P₁</td><td bgcolor="#e3f1e6">N₁</td><td bgcolor="#fbeedd">UV₁</td>
+          <td port="p2" bgcolor="#f8e5e5">P₂</td><td bgcolor="#e3f1e6">N₂</td><td bgcolor="#fbeedd">UV₂</td>
+        </tr>
+        <tr><td colspan="9" bgcolor="#33415c"><font color="white"><b>Texture row i  (9 RGBA32F texels)</b></font></td></tr>
+        <tr><td colspan="9"><font point-size="11">R,G,B = x,y,z  ·  A = material / flag</font></td></tr>
+      </table>>];
+
+    shader [shape=box, style="rounded,filled", fillcolor="#e3f1e6", color="#2b7a3d",
+            label="Fragment shader: texture(uSampler, (k/9, i/N))\nread by every pixel (ray)"];
+
+    tri:v0:s -> row:p0:n;
+    tri:v1:s -> row:p1:n;
+    tri:v2:s -> row:p2:n;
+    row -> shader;
+}

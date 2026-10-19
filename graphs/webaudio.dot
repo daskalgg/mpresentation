@@ -1,0 +1,12 @@
+// A minimal Web Audio API graph used for auralization
+digraph webaudio {
+    graph [rankdir=LR, bgcolor="transparent", nodesep=0.3, ranksep=0.5, dpi=200];
+    node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=13,
+           color="#a35a00", fillcolor="#fbeedd", penwidth=1.3];
+    edge  [color="#33415c", arrowsize=0.7, penwidth=1.2];
+
+    src  [label="AudioBufferSourceNode\n(anechoic sound)"];
+    conv [label="ConvolverNode\n(impulse response)"];
+    dst  [label="AudioDestinationNode\n(speakers / headphones)", fillcolor="#33415c", fontcolor="white", color="#33415c"];
+    src -> conv -> dst;
+}

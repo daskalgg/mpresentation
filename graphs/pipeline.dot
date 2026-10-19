@@ -1,0 +1,42 @@
+// Overview of the implementation: from scene geometry to binaural audio
+digraph pipeline {
+    graph [rankdir=TB, splines=ortho, bgcolor="transparent", nodesep=0.5, ranksep=0.3, dpi=200, newrank=true];
+    node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=13,
+           color="#33415c", fillcolor="#eef2f8", penwidth=1.3];
+    edge  [color="#33415c", arrowsize=0.7, penwidth=1.2];
+
+    subgraph cluster_cpu {
+        label="1. Scene upload (JS)"; fontname="Helvetica-Bold"; fontsize=14;
+        style="rounded,dashed"; color="#8899aa";
+        mesh [label="3D model\n(OBJ mesh + materials)"];
+        tex  [label="Float32 RGBA\nscene texture\n+ uniforms (source,\nreceiver, reflection order)"];
+        mesh -> tex;
+    }
+
+    subgraph cluster_gpu {
+        label="2. Ray-tracing (WebGL fragment shader)"; fontname="Helvetica-Bold"; fontsize=14;
+        style="rounded,dashed"; color="#2b7a3d";
+        node [fillcolor="#e3f1e6", color="#2b7a3d"];
+        rays [label="1 pixel = 1 ray\nequirectangular\ndirections"];
+        trace [label="Bounce rays\n(8 frequency bands)"];
+        out  [label="4 output textures\n(energy, distance)"];
+        rays -> trace -> out;
+    }
+
+    subgraph cluster_audio {
+        label="3. Auralization (Web Audio API)"; fontname="Helvetica-Bold"; fontsize=14;
+        style="rounded,dashed"; color="#a35a00";
+        node [fillcolor="#fbeedd", color="#a35a00"];
+        foa  [label="First-order\nambisonic DRIR\n(per band)"];
+        lr   [label="Linkwitz-Riley\nfilter tree"];
+        brir [label="HRIR convolution\n→ BRIR"];
+        play [label="Convolve with\nanechoic sound"];
+        foa -> lr -> brir -> play;
+    }
+
+    tex -> rays;
+    out -> foa;
+    {rank=same; tex; rays}
+    {rank=same; out; foa}
+
+}
