@@ -180,10 +180,32 @@ function Presentation() {
             <SectionSlide index={0} />
 
             <Slide>
+                <Title>Our Goal</Title>
+                <ul>
+                    <li className='fragment'>
+                        Implement a novel Web3D implementation that generates <b>Directional Room Impulse Responses (DRIR)</b> for
+                        virtual spaces, based on their volume, topology and materials and on the source and receiver positions,
+                        simulating specular and diffuse reflections and reverberation with <b>ray tracing</b>.
+                    </li>
+                    <li className='fragment'>
+                        <b>WebGL</b> provides GPU acceleration for the ray tracing algorithm
+                        and the <b>Web Audio API</b> is used for auralization.
+                    </li>
+                    <li className='fragment'>
+                        Both are available in every browser, so the implementation is platform independent
+                        and fast enough even for low-end devices such as smartphones for simple scenes.
+                    </li>
+                </ul>
+                <SpeakerNotes>
+                    This is the one-sentence summary of the thesis. Everything that follows explains either the
+                    acoustics behind it (sections 2 to 4), how we built it (section 5) or how well it works (section 6).
+                </SpeakerNotes>
+            </Slide>
+
+            <Slide>
                 <Title>Motivation</Title>
                 <ul>
-                    <li className="fragment">Immersive experiences (VR, AR, games, installations) need sound that agrees with what the user sees<Cite k="blauert1997spatial" /></li>
-                    <li className="fragment">Room acoustics simulation computes the <b>Room Impulse Response (RIR)</b>: the "sound signature" of a space</li>
+                    <li className="fragment">Immersive experiences (VR, AR, games) need sound that agrees with what the user sees<Cite k="blauert1997spatial" /></li>
                     <li className="fragment">Also used in architecture: designing airports, theaters and stations without unwanted echoes<Cite k={['buildings4020113', 'naylor1993odeon']} /></li>
                     <li className="fragment">Many techniques exist for physically accurate simulation<Cite k={['funkhouser2003survey', 'lakka2018spatial']} />, but their use on the web is limited</li>
                 </ul>
@@ -199,33 +221,12 @@ function Presentation() {
                 <ul>
                     <li className="fragment">Accurate simulation is computationally expensive. Tools like Odeon<Cite k="naylor1993odeon" /> are built for offline use</li>
                     <li className="fragment">Real-time web apps fall back to basic panning, volume attenuation or pre-recorded samples</li>
-                    <li className="fragment">The Web Audio API lacks the methods needed for proper room acoustics auralization. X3D efforts build on top of it<Cite k={['stamoulias2015wrapping', 'lakka2021x3d']} /></li>
+                    <li className="fragment">The Web Audio API lacks the methods needed for proper room acoustics auralization.</li>
                     <li className="fragment">The web targets everything from desktops to smartphones, where efficiency and battery life matter</li>
                 </ul>
                 <SpeakerNotes>
                     Three constraints: the algorithms are heavy, the browser has no built-in room acoustics,
                     and whatever we build must also run on a phone. That is why web audio today is mostly simple panning.
-                </SpeakerNotes>
-            </Slide>
-
-            <Slide>
-                <Title>Our Goal</Title>
-                <Block>
-                    A novel Web3D implementation that generates <b>Directional Room Impulse Responses (DRIR)</b> for
-                    virtual spaces, based on their volume, topology and materials and on the source and receiver positions,
-                    simulating specular and diffuse reflections and reverberation with <b>ray tracing</b>.
-                </Block>
-                <Block asFrag>
-                    <b>WebGL</b> provides GPU acceleration for the ray tracing algorithm
-                    and the <b>Web Audio API</b> is used for auralization.
-                </Block>
-                <Block asFrag>
-                    Both are available in every browser, so the implementation is platform independent
-                    and fast enough even for low-end devices such as smartphones.
-                </Block>
-                <SpeakerNotes>
-                    This is the one-sentence summary of the thesis. Everything that follows explains either the
-                    acoustics behind it (sections 2 to 4), how we built it (section 5) or how well it works (section 6).
                 </SpeakerNotes>
             </Slide>
 
@@ -321,7 +322,7 @@ function Presentation() {
                 <div className="cols">
                     <Figure src={rirImg} height="300px" />
                     <div style={{ textAlign: 'left' }}>
-                        <ol style={{ fontSize: '0.7em' }}>
+                        <ol style={{ fontSize: '0.6em' }}>
                             <li className="fragment"><b>Direct path:</b> straight from S to R</li>
                             <li className="fragment"><b>Early echoes:</b> first, mostly specular reflections</li>
                             <li className="fragment"><b>Late reverberation:</b> mostly diffuse reflections from all directions, perceived as a low hum</li>
@@ -364,8 +365,8 @@ function Presentation() {
                 <Title>Sound Propagation Algorithms</Title>
                 <Figure src={algorithmsGraph} height="380px" />
                 <Block asFrag>
-                    Different compromises between simplicity, performance and accuracy.
-                    We use <b>ray tracing</b>.
+                    Sound propagation refers to a family of algorithms that calculate how sound
+                    travels and interacts with a space. They are divided into two groups. Wave-based and Geometric.
                 </Block>
                 <SpeakerNotes>
                     Two families: wave equation methods solve the physics directly, geometric methods treat sound
@@ -418,23 +419,6 @@ function Presentation() {
             </Slide>
 
             <Slide>
-                <Title>Ray-Tracing: The Receiver</Title>
-                <div className="cols">
-                    <Figure src={receiverSizeImg} height="170px" caption="The share of rays hitting the receiver depends on its size" />
-                    <Figure src={receiverProximityImg} height="170px" caption="... and on its distance from the source" />
-                </div>
-                <ul>
-                    <li className="fragment">A random ray never hits a point, so the receiver must have a <b>finite volume</b></li>
-                    <li className="fragment">Each ray carries a share of the energy. Spreading of rays models the 1/r² attenuation</li>
-                    <li className="fragment">Absorption is applied per <b>frequency band</b>, depending on the materials</li>
-                </ul>
-                <SpeakerNotes>
-                    Two consequences of firing random rays: the receiver has to be a sphere, not a point,
-                    and distance attenuation comes for free, because fewer rays reach a far-away sphere.
-                </SpeakerNotes>
-            </Slide>
-
-            <Slide>
                 <Title>Why Ray-Tracing?</Title>
                 <ul>
                     <li className="fragment">Simulates both specular and diffuse reflections, so it captures reverberation</li>
@@ -454,19 +438,19 @@ function Presentation() {
 
             <Slide>
                 <Title>Directional RIR (DRIR)</Title>
-                <Block>
-                    A plain RIR tells us <i>when</i> and <i>how loud</i> each reflection arrives, but not <i>from where</i>.
-                </Block>
-                <br />
-                <Block asFrag>
-                    A <b>Directional RIR (DRIR)</b> also stores the <i>direction</i> from which each part of the sound arrives,
-                    which is essential for VR and 3D audio.
-                </Block>
-                <br />
-                <Block asFrag>
-                    Real DRIRs are captured with spherical microphone arrays
-                    and stored as ambisonic files<Cite k="perez2018ambisonics" />.
-                </Block>
+                <ul>
+                    <li className="fragment">
+                        A plain RIR tells us <i>when</i> and <i>how loud</i> each reflection arrives, but not <i>from where</i>.
+                    </li>
+                    <li className="fragment">
+                        A <b>Directional RIR (DRIR)</b> also stores the <i>direction</i> from which each part of the sound arrives,
+                        which is essential for VR and 3D audio.
+                    </li>
+                    <li className="fragment">
+                        Real DRIRs are captured with spherical microphone arrays
+                        and stored as ambisonic files<Cite k="perez2018ambisonics" />.
+                    </li>
+                </ul>
                 <SpeakerNotes>
                     For VR, knowing that a reflection arrives 20 ms later is not enough; we need to know it came
                     from the wall on the left, so that turning your head changes what you hear.
@@ -477,7 +461,7 @@ function Presentation() {
             <Slide>
                 <Title>HRTF and Binaural Rendering</Title>
                 <ul>
-                    <li className="fragment">We localize sound through <b>ITD</b> (time difference), <b>ILD</b> (level difference) and pinna filtering<Cite k="begault2010applying" /></li>
+                    <li className="fragment">We localize sound through <b>ITD</b> (Interaural time difference), <b>ILD</b> (Interaural level difference) and pinna filtering<Cite k="begault2010applying" /></li>
                     <li className="fragment">The <b>HRTF/HRIR</b> captures how head, ears and torso filter sound from each direction<Cite k="zotkin2003hrtf" /></li>
                     <li className="fragment">DRIR ⊛ HRIR gives a 2-channel <b>Binaural RIR (BRIR)</b>, played over headphones</li>
                 </ul>
@@ -529,7 +513,6 @@ function Presentation() {
                         <li className="fragment">Draw two triangles covering the viewport, so every fragment can read all mesh data</li>
                         <li className="fragment">Uniforms carry the reflection order and the source and receiver positions</li>
                     </ul>
-                    <Figure src={textureGraph} height="340px" className="wide" />
                 </div>
                 <SpeakerNotes>
                     Ray tracing needs every triangle available to every ray. Textures are the one large,
@@ -578,7 +561,7 @@ function Presentation() {
 
             <Slide>
                 <Title>Ambisonic Encoding</Title>
-                <Block>Each ray hit becomes an impulse at t = distance / 343 m/s, encoded per band into first-order ambisonics (B-format, SN3D, ACN):</Block>
+                <Block>Each ray hit becomes an impulse at t = distance / 343 m/s, encoded per band into first-order ambisonics:</Block>
                 <div className="eq" style={{ lineHeight: 1.6, margin: '0.6em 0' }}>
                     Ch<sub>0</sub> = 1<br />
                     Ch<sub>1</sub> = sin(θ) · cos(φ)<br />
